@@ -7,6 +7,7 @@
       <br>
       <input v-model="wordField" type="text" placeholder="Word"/>
       <input v-model="hintField" type="text" placeholder="Hint">
+      <span>{{ errorMessage }}</span>
       <div v-if="canSubmit">
         <button v-if="index === words.length && words.length !== wordsPerPlayer" v-on:click="onAddWord" type="button">Add Word</button>
         <button v-else v-on:click="onUpdateWord" type="button">Update Word</button>
@@ -31,16 +32,35 @@ export default {
       index: 0,
       wordField: '',
       hintField: '',
-      canSubmit: true
+      canSubmit: true,
+      errorMessage: ''
     }
   },
   computed: mapState({
     wordsPerPlayer: state => state.settings.wordsPerPlayer
   }),
   methods: {
+    isValidWord: function (word) {
+      return word.word.length > 0 && word.word.length <= this.$store.state.settings.maxWordLength && word.wordID !== ''
+    },
     onSubmit: function () {
+      this.errorMessage = ''
       this.canSubmit = false
-      this.$store.dispatch('controller/submitWords', this.words)
+      let correctWords = this.words.map(this.isValidWord)
+      let first = true
+      for (let idx in correctWords) {
+        if (!correctWords[idx]) {
+          if (first) {
+            this.errorMessage = 'The following words are not according to rules: '
+            first = false
+          }
+          this.errorMessage += String(parseInt(idx) + 1) + ' '
+          this.canSubmit = true
+        }
+      }
+      if (this.words.every(this.isValidWord)) {
+        this.$store.dispatch('controller/submitWords', this.words)
+      }
     },
     onClickNumber: function (clickedNumber) {
       this.index = clickedNumber - 1

@@ -79,12 +79,14 @@ function removeSucceedingSpace (arr, ind) {
 }
 
 function fixCapitals (str) {
+  if (str === '') return str
   str = str.toLowerCase()
   let arr = str.split(' ')
   for (let k = 0; k < arr.length; k++) {
     let word = arr[k]
     let i = 0
-    while (i < word.length && (word.charCodeAt(i) < 97 || word.charCodeAt(i) > 122)) {
+    while ((i < word.length && (word.charCodeAt(i) < 97 || word.charCodeAt(i) > 122)) &&
+          !(word[i].charCodeAt(0) >= 48 && word[i].charCodeAt(0) <= 57)) {
       i++
     }
     let letters = word.split('')
@@ -109,7 +111,8 @@ export function generateKey (sentence) {
     let i = 0
     let letters = words[k].split('')
     while (i < letters.length) {
-      if (letters[i].charCodeAt(0) < 97 || letters[i].charCodeAt(0) > 122) {
+      if ((letters[i].charCodeAt(0) < 97 || letters[i].charCodeAt(0) > 122) &&
+          !(letters[i].charCodeAt(0) >= 48 && letters[i].charCodeAt(0) <= 57)) {
         letters.splice(i, 1)
         i--
       }
