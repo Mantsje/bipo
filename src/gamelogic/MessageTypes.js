@@ -2,7 +2,6 @@
 // Very much subject to changes
 export const MessageTypes = {
   ADDPLAYER: 'ADDPLAYER',
-  UPDATEPLAYER: 'UPDATEPLAYER',
   READYPLAYER: 'READYPLAYER',
   UPDATESETTINGS: 'UPDATESETTINGS',
   INITGAME: 'INITGAME'

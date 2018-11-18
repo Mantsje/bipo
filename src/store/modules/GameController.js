@@ -1,4 +1,4 @@
-import { RoundStatus } from '../datatypes/enums'
+import { RoundStatus } from '../../datatypes/enums'
 
 export default {
   namespaced: true,

@@ -29,7 +29,8 @@
         <span>Single device:</span>
         <input v-model="settings.singleDevice" type="checkbox"/>
       </div>
-      <button v-on:click="onChangeSettings" type="button">Change Settings</button>
+      <span>Beware, after hitting you can not change settings any more!</span>
+      <button v-on:click="onChangeSettings" type="button">Commit Settings</button>
     </form>
   </div>
 </template>
@@ -51,7 +52,7 @@ export default {
   },
   methods: {
     onChangeSettings: function () {
-      this.$store.dispatch('settings/changeSettings', this.settings)
+      this.$store.dispatch('settings/commitSettings', this.settings)
     }
   }
 }

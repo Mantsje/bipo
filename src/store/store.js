@@ -2,14 +2,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
-import GameSettings from './GameSettings.js'
-import GameController from './GameController.js'
-import Statistics from './Statistics.js'
+import GameSettings from './modules/GameSettings.js'
+import GameController from './modules/GameController.js'
+import Statistics from './modules/Statistics.js'
 
 import Player from '../datatypes/Player'
 import HubConnection from '../gamelogic/HubConnection'
-import { MessageTypes } from '../gamelogic/MessageTypes'
 import { instantiateGame } from '../gamelogic/instantiateGame'
+import { AcreateGame, AthisPlayer, Aplayers, AroomCode } from './actions'
 
 Vue.use(Vuex)
 
@@ -32,44 +32,30 @@ export default new Vuex.Store({
     openHubConnection: function (state, hubURL) {
       state.hubconn.connect(hubURL)
     },
-    createPlayer: function (state, playerName) {
-      state.thisPlayer = new Player(playerName)
-    },
     mirrorGame: function (state, data) {
       state.roomCode = data.roomCode
       state.archived = data.archived
       state.host = data.host
       state.players = data.players
     },
-    setRoomCode: function (state, roomCode) {
-      state.roomCode = roomCode
-    },
-    createGame: function (state, playerName) {
-      state.host = playerName
-      state.archived = false
-      state.players = []
-      state.roomCode = 'ROOMCODE'
-    },
-    addPlayer: function (state, player) {
-      state.players.push(player)
-    },
-    readyAPlayer: function (state, player) {
-      let pIndex = state.players.indexOf(x => x.name === player.name)
-      state.players[pIndex].ready = true
-    },
-    readyThisPlayer: function (state) {
-      state.thisPlayer.ready = true
-    },
-    setThisPlayer: function (state, newThisPlayer) {
-      state.thisPlayer = newThisPlayer
-    }
+
+    createGame: AcreateGame.mutation,
+
+    setRoomCode: AroomCode.set.mutation,
+
+    createThisPlayer: AthisPlayer.create.mutation,
+    readyThisPlayer: AthisPlayer.ready.mutation,
+    setThisPlayer: AthisPlayer.set.mutation,
+
+    addPlayer: Aplayers.add.mutation,
+    readyAPlayer: Aplayers.set.mutation
   },
 
   actions: {
     joinGame: function (context, { playerName, roomcode }) {
       console.log('Attempting joinGame action')
 
-      context.commit('createPlayer', playerName)
+      context.commit('createThisPlayer', playerName)
       axios.get('/backend/join/' + roomcode)
         .then((response) => {
           let { hubURL } = response.data
@@ -80,7 +66,7 @@ export default new Vuex.Store({
     // Create a new player, instantiate a game, and only when that is finished make the connection with the hub
     hostGame: function (context, { playerName }) {
       console.log('Attempting hostGame action')
-      context.commit('createPlayer', playerName)
+      context.commit('createThisPlayer', playerName)
       instantiateGame(playerName)
         .then(() => {
           axios.get('/backend/host')
@@ -95,15 +81,8 @@ export default new Vuex.Store({
         })
     },
 
-    instantiateGame: function (context, playerName) {
-      context.commit('createGame', playerName)
-    },
-
-    readyPlayer: function (context) {
-      console.log('player readied up!')
-      this.hubconn.send(MessageTypes.READYPLAYER, context.state.thisPlayer)
-      context.commit('readyThisPlayer')
-    }
+    instantiateGame: AcreateGame.action,
+    readyPlayer: AthisPlayer.ready.action
 
   }
 })

@@ -2,12 +2,13 @@ import store from '../store/store'
 import router from '../router'
 import MessageHandler from './MessageHandler'
 import MessageBuilder from './MessageBuilder'
+import { MessageTypes } from './MessageTypes'
 
 export default class HubConnection {
   constructor () {
     this.store = store
     this.router = router
-    this.messageHandler = new MessageHandler(store)
+    this.messageHandler = new MessageHandler(store, router)
     this.postOffice = new MessageBuilder(store, this)
     this.socket = undefined
   }
@@ -26,15 +27,15 @@ export default class HubConnection {
 
   onOpen (event) {
     console.log('Connection to the gameroom opened')
-    console.log('TODO try to add new player (I.E. send join message to hub)')
-    this.router.push('/pregame')
+    this.postOffice.prepare(MessageTypes.ADDPLAYER, this.store.state.thisPlayer)
+    this.router.push('/setupgame')
   }
 
   onOpenAsHost (event) {
     console.log('Connection to the gameroom opened')
-    console.log('TODO Send game currently instantiated by host to the hub)')
-    console.log('TODO try to add new player (I.E. send join message to hub)')
-    this.router.push('/pregame')
+    this.postOffice.prepare(MessageTypes.INITGAME, undefined)
+    this.postOffice.prepare(MessageTypes.ADDPLAYER, this.store.state.thisPlayer)
+    this.router.push('/setupsettings')
   }
 
   onClose (event) {

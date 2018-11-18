@@ -21,23 +21,24 @@ import { MessageTypes } from './MessageTypes'
 */
 
 export default class MessageHandler {
-  constructor (store) {
+  constructor (store, router) {
     this.store = store
+    this.router = router
   }
 
   handleMessage (message) {
     console.log('asked to handle message:' + message)
     switch (message.type) {
       case MessageTypes.INITGAME: { this.receiveInitGame(message.data); break }
-      case MessageTypes.ADDPLAYER: { this.addPlayer(message.data); break }
+      case MessageTypes.ADDPLAYER: { this.addAPlayer(message.data); break }
       case MessageTypes.UPDATESETTINGS: { this.updateSettings(message.data); break }
-      case MessageTypes.READYPLAYER: { this.readyPlayer(message.data); break }
+      case MessageTypes.READYPLAYER: { this.readyAPlayer(message.data); break }
     }
   }
 
-  addPlayer (data) {
+  addAPlayer (data) {
     console.log('Add player message received')
-    this.store.commit('addPlayer', Player.fromJSON(data))
+    this.store.commit('addAPlayer', Player.fromJSON(data))
   }
 
   receiveInitGame (data) {
@@ -60,9 +61,10 @@ export default class MessageHandler {
   updateSettings (data) {
     console.log('Update settings message received')
     this.store.commit('controller/updateSettings', data)
+    this.router.push('./setupgame')
   }
 
-  readyPlayer (data) {
+  readyAPlayer (data) {
     let player = Player.fromJSON(data.player)
     this.store.commit('readyAPlayer', player)
   }

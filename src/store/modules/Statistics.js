@@ -1,4 +1,4 @@
-// import RoundStat from '../datatypes/Statistics/RoundStat'
+// import RoundStat from '../../datatypes/Statistics/RoundStat'
 
 export default {
   namespaced: true,

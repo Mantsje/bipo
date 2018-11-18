@@ -1,5 +1,6 @@
 <template>
   <div class="GameSettingsView">
+    <div><span>Roomcode: {{ roomCode }} </span></div>
     <div><span>Number of Teams: {{ settings.numTeams }}</span></div>
     <div><span>Number of Words per Player: {{ settings.wordsPerPlayer }}</span></div>
     <div><span>Turn time (in seconds): {{ settings.turnTime }}</span></div>
@@ -19,7 +20,8 @@ import { mapState } from 'vuex'
 export default {
   name: 'GameSettingsView',
   computed: mapState({
-    settings: state => state.settings
+    settings: state => state.settings,
+    roomCode: state => state.roomCode
   })
 
 }

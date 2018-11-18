@@ -1,3 +1,4 @@
+import { MessageTypes } from '../../gamelogic/MessageTypes'
 
 export default {
   namespaced: true,
@@ -33,9 +34,9 @@ export default {
       }
       context.commit('updateSettings', data)
     },
-    changeSettings: function (context, updatedSettings) {
-      console.log('Try to change settings action')
-      context.commit('updateSettings', updatedSettings)
+    commitSettings: function (context, updatedSettings) {
+      console.log('committing settings action')
+      context.rootState.hubconn.send(MessageTypes.UPDATESETTINGS, updatedSettings)
     }
   }
 }

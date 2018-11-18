@@ -8,6 +8,7 @@ import SetupLobby from '@/views/SetupLobby.vue'
 import StatisticsPage from '@/views/StatisticsPage.vue'
 import TurnPage from '@/views/TurnPage.vue'
 import WaitingScreen from '@/views/WaitingScreen.vue'
+import SetupSettings from '@/views/SetupSettings.vue'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/pregame',
       name: 'PreGameLobby',
       component: PreGameLobby
+    },
+    {
+      path: '/setupsettings',
+      name: 'SetupSettings',
+      component: SetupSettings
     },
     {
       path: '/setupgame',
