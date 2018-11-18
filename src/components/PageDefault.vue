@@ -1,5 +1,6 @@
 <template>
   <div class="PageDefault">
+    <debug-page-advancer/>
     <h1>{{ header }}</h1>
     <img class="icon" v-if="showSettings" alt="Settings icon" src="../assets/settings_icon_96x96.png">
     <img class="icon" v-if="showHelp" alt="Help icon" src="../assets/help_icon_512x512.png">
@@ -15,7 +16,10 @@
 </style>
 
 <script>
+import DebugPageAdvancer from '../debug/components/DebugPageAdvancer'
+
 export default {
+  components: { DebugPageAdvancer },
   name: 'PageDefault',
   props: {
     header: {

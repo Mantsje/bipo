@@ -1,0 +1,25 @@
+
+Add before render checks whether person is allowed on this page and redirect accordingly
+
+Connect to backend
+
+Make choices in whether the backend handles logic, or the host, or the active player
+
+Implement logic in store modules, create actions, make stuff happeb
+
+Reset ready status when advancing from something readied for
+
+No timer accross devices!
+
+Fix the stringFormatter script to accept numbers and such
+
+Add possibility of word dismissal as setting
+
+People cannot add words before settings are definite
+
+
+
+THINGS TO CHECK GETTING FROM BACKEND:
+	Initing settings before sending to backend (maybe check for this in backend)
+	Initing roomcode before sending to backend (maybe check for this in backend)
+	

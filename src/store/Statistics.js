@@ -1,12 +1,22 @@
-import { Round } from './datatypes/enums'
-import RoundStat from './datatypes/Statistics/RoundStat'
+// import RoundStat from '../datatypes/Statistics/RoundStat'
 
 export default {
+  namespaced: true,
   state: {
-    describe: new RoundStat(Round.DESCRIBE, []),
-    depict: new RoundStat(Round.DEPICT, []),
-    oneword: new RoundStat(Round.ONEWORD, [])
+    // rounds: [new RoundStat(0, [])]
+    rounds: []
   },
-  mutations: {},
-  actions: {}
+  mutations: {
+    mirrorStats: function (state, data) {
+      for (let key in data) {
+        state[key] = data[key]
+      }
+    }
+  },
+  actions: {
+    instantiateStats: function (context) {
+      let data = { rounds: [] }
+      context.commit('mirrorStats', data)
+    }
+  }
 }

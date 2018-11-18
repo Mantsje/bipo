@@ -1,14 +1,41 @@
 
 export default {
+  namespaced: true,
   state: {
-    wordsPerPlayer: 7,
+    wordsPerPlayer: -1,
     singleDevice: false,
     DBFill: false,
-    numTeams: 2,
-    turnTime: 60,
-    maxWordLength: 50,
+    numTeams: -1,
+    turnTime: -1,
+    numRounds: -1,
+    maxWordLength: -1,
     customTeams: false
   },
-  mutations: {},
-  actions: {}
+  mutations: {
+    updateSettings: function (state, data) {
+      for (let key in data) {
+        state[key] = data[key]
+      }
+    }
+  },
+  actions: {
+    instantiateSettings: function (context) {
+      // The default settings
+      let data = {
+        wordsPerPlayer: 7,
+        singleDevice: false,
+        DBFill: false,
+        numTeams: 2,
+        turnTime: 60,
+        numRounds: 3,
+        maxWordLength: 50,
+        customTeams: false
+      }
+      context.commit('updateSettings', data)
+    },
+    changeSettings: function (context, updatedSettings) {
+      console.log('Try to change settings action')
+      context.commit('updateSettings', updatedSettings)
+    }
+  }
 }

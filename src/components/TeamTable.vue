@@ -1,32 +1,23 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
+  <div class="TeamTable">
+    <h3>The Teams</h3>
+    <table>
+      <tr><th v-for="team in teams" :key=team.id>{{ team.name }}</th></tr>
+      <tr v-for="i in Math.max(0,...teams.map(t => t.players.length))" :key="'r'+i">
+        <td v-for="j in teams" :key="j.id">{{ j.players[i] ? j.players[i].name : '' }}</td>
+      </tr>
+    </table>
   </div>
 </template>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
-
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+  name: 'TeamTable',
+
+  computed: mapState({
+    teams: state => state.controller.teams
+  })
 }
 </script>

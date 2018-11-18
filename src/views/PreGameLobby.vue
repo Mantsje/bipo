@@ -1,5 +1,25 @@
 <template>
-  <div class="about">
-    <h1>This is the PreGameLobby</h1>
+  <div class="PreGameLobby">
+    <page-default :showSettings="false" header="Pre-Game Overview"/>
+    <team-table/>
+    <game-settings-view/>
+    <ready-up/>
   </div>
 </template>
+
+<script>
+import PageDefault from '../components/PageDefault'
+import TeamTable from '../components/TeamTable'
+import GameSettingsView from '../components/GameSettingsView'
+import ReadyUp from '../components/ReadyUp'
+
+export default {
+  name: 'PreGameLobby',
+  components: {
+    PageDefault,
+    TeamTable,
+    GameSettingsView,
+    ReadyUp
+  }
+}
+</script>

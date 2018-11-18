@@ -1,6 +1,6 @@
 /* Example instance
   {
-    round: round.DEPICT,
+    round: 2,
     teamName0: TeamStat,
     teamName1: TeamStat,
   }
@@ -14,5 +14,8 @@ export default class RoundStat {
     for (let t in teams) {
       this[teams[t].name] = new TeamStat(teams[t])
     }
+    this.bestPlayer = 'EMPTYBEST'
+    this.worstPlayer = 'EMPTYWORST'
+    this.winningTeam = 'EMPTYWINTEAM'
   }
 }
