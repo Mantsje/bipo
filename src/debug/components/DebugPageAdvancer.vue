@@ -1,5 +1,5 @@
 <template>
-  <div class="DebugPageAdvancer">
+  <div class="debug-area">
     <input v-model="link" type="text"/>
     <button v-on:click="advancePage" type="button">Advance page</button>
   </div>
