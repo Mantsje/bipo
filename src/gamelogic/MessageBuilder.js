@@ -22,6 +22,7 @@ export default class MessageBuilder {
       case MessageTypes.STARTROUND: { preparedData = data; break }
       case MessageTypes.ENDROUND: { preparedData = data; break }
       case MessageTypes.NEXTTURN: { preparedData = data; break }
+      case MessageTypes.NEWROUNDSTAT: { preparedData = data; break }
     }
 
     if (preparedData === null) {

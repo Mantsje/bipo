@@ -1,9 +1,8 @@
-// import RoundStat from '../../datatypes/Statistics/RoundStat'
+import { AinitRound } from './actions'
 
 export default {
   namespaced: true,
   state: {
-    // rounds: [new RoundStat(0, [])]
     rounds: []
   },
   mutations: {
@@ -11,12 +10,14 @@ export default {
       for (let key in data) {
         state[key] = data[key]
       }
-    }
+    },
+    initNextRound: AinitRound.mutation
   },
   actions: {
     instantiateStats: function (context) {
       let data = { rounds: [] }
       context.commit('mirrorStats', data)
-    }
+    },
+    initNextRound: AinitRound.action
   }
 }

@@ -56,21 +56,14 @@ export default new Vuex.Store({
   },
 
   actions: {
-    joinGame: function (context, { playerName, roomcode }) {
+    joinGame: function (context, { playerName, roomCode }) {
       console.log('Attempting joinGame action')
 
       context.commit('createThisPlayer', playerName)
 
-      // let hubURL = 'ws://localhost:8081/echo'
-      let hubURL = 'ws://localhost:8082/ws'
+      // let hubURL = 'ws://localhost:8082/ws/join?playerName=' + playerName + '&roomCode=' + roomCode
+      let hubURL = 'ws://192.168.178.52:8082/ws'
       context.commit('openHubConnection', hubURL)
-
-      // axios.get('/backend/join/' + roomcode)
-      //   .then((response) => {
-      //     let { hubURL } = response.data
-      //     console.log('response target connection: ', hubURL)
-      //     context.commit('openHubConnection', hubURL)
-      //   })
     },
     // Create a new player, instantiate a game, and only when that is finished make the connection with the hub
     hostGame: function (context, { playerName }) {
@@ -78,8 +71,9 @@ export default new Vuex.Store({
       context.commit('createThisPlayer', playerName)
       instantiateGame(playerName)
         .then(() => {
-          // let hubURL = 'ws://localhost:8081/echo'
-          let hubURL = 'ws://localhost:8082/ws'
+          // let hubURL = 'ws://localhost:8082/ws/host?playerName=' + playerName
+          // context.commit('openHubConnection', hubURL)
+          let hubURL = 'ws://192.168.178.52:8082/ws'
           let roomCode = 'AAAA'
           context.dispatch('setRoomCodeDirectly', roomCode)
             .then(() => {
@@ -87,15 +81,6 @@ export default new Vuex.Store({
             }, () => {
               console.log(Error('setRoomCode rejected'))
             })
-          // axios.get('/backend/host')
-          //   .then((response) => {
-          //     let { hubURL, roomCode } = response.data
-          //     console.log('response target connection: ', hubURL)
-          //     context.commit('setRoomCode', roomCode)
-          //       .then(() => {
-          //         context.commit('openHubConnection', hubURL)
-          //       })
-          //   })
         })
     },
     setRoomCodeDirectly: function (context, roomCode) {

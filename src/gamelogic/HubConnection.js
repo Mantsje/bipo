@@ -2,9 +2,6 @@ import MessageHandler from './MessageHandler'
 import MessageBuilder from './MessageBuilder'
 import { MessageTypes } from './MessageTypes'
 
-// import store from '../store/store'
-// import router from '../router'
-
 export default class HubConnection {
   constructor () {
     // this.store = store
@@ -39,6 +36,7 @@ export default class HubConnection {
   onOpen (hubconn) {
     return function (event) {
       console.log('Connection to the gameroom opened')
+      console.warn('Once this is done move this function to message handler receiveroomcode')
       let player = hubconn.postOffice.prepare(MessageTypes.ADDPLAYER, hubconn.store.state.thisPlayer)
       hubconn.sendMessage(player)
     }
@@ -48,6 +46,7 @@ export default class HubConnection {
   onOpenAsHost (hubconn) {
     return function (event) {
       console.log('Connection to the gameroom opened')
+      console.warn('Once this is done move this function to message handler receiveroomcode')
       let game = hubconn.postOffice.prepare(MessageTypes.INITGAME, undefined)
       let player = hubconn.postOffice.prepare(MessageTypes.ADDPLAYER, hubconn.store.state.thisPlayer)
       hubconn.sendMessage(game)

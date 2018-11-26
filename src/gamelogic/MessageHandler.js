@@ -1,6 +1,7 @@
 import Player from '@/datatypes/Player'
 import Team from '@/datatypes/Team'
 import Word from '@/datatypes/Word'
+import RoundStat from '@/datatypes/Statistics/RoundStat'
 import { MessageTypes } from './MessageTypes'
 
 /* A default message looks like:
@@ -40,6 +41,8 @@ export default class MessageHandler {
       case MessageTypes.STARTROUND: { this.startRound(message.data); break }
       case MessageTypes.ENDROUND: { this.endRound(message.data); break }
       case MessageTypes.NEXTTURN: { this.nextTurn(message.data); break }
+      case MessageTypes.SERVERROOMCODE: { this.receiveServerRoomCode(message.data); break }
+      case MessageTypes.NEWROUNDSTAT: { this.newRoundStat(message.data); break }
     }
   }
 
@@ -146,5 +149,19 @@ export default class MessageHandler {
     this.store.commit('controller/processWordsGuessed', words)
     this.store.commit('controller/nextTurn')
     this.store.dispatch('controller/playOrWait')
+  }
+
+  // Should be the first message the host receives and kickstarts the game process.
+  receiveServerRoomCode (data) {
+    console.log('server room code message received')
+    this.store.dispatch('setRoomCodeDirectly', data).then(() => {
+      console.error('IMPLEMENT THIS FUNCTION ONCE ABES THING IS DONE!')
+    })
+  }
+
+  newRoundStat (data) {
+    console.log('server room code message received')
+    let roundStat = RoundStat.fromJSON(data)
+    this.store.commit('statistics/initNextRound', roundStat)
   }
 }

@@ -70,6 +70,7 @@ export const Aingame = {
           let pIndex = Math.floor(data.turnNr / team.players.length) % team.players.length
           data.turn = team.players[pIndex].name
           context.rootState.hubconn.send(MessageTypes.UPDATECONTROLLER, data)
+          context.dispatch('statistics/initNextRound', data.currentRound, { root: true })
         }
     },
     start: {
