@@ -8,6 +8,9 @@ export function instantiateGame (playerName) {
     let main = store.dispatch('instantiateGame', playerName)
     Promise.all([settings, controller, stats, main]).then(() => {
       resolve()
+    }, () => {
+      console.log('something failed')
+      reject(Error('Something in instantiating failed'))
     })
   })
 }

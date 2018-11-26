@@ -22,7 +22,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import Word from '../datatypes/Word.js'
+import Word from '@/datatypes/Word.js'
 
 export default {
   name: 'WordSubmission',
@@ -60,6 +60,7 @@ export default {
       }
       if (this.words.every(this.isValidWord)) {
         this.$store.dispatch('controller/submitWords', this.words)
+        this.$router.push('/pregame')
       }
     },
     onClickNumber: function (clickedNumber) {

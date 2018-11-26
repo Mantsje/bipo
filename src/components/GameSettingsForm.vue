@@ -29,7 +29,7 @@
         <span>Single device:</span>
         <input v-model="settings.singleDevice" type="checkbox"/>
       </div>
-      <span>Beware, after hitting you can not change settings any more!</span>
+      <span>Beware, after hitting commit you can not change settings any more!</span>
       <button v-on:click="onChangeSettings" type="button">Commit Settings</button>
     </form>
   </div>

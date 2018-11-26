@@ -42,8 +42,8 @@ export const AthisPlayer = {
     action:
       function (context) {
         console.log('player readied up!')
-        this.hubconn.send(MessageTypes.READYPLAYER, context.state.thisPlayer)
         context.commit('readyThisPlayer')
+        context.state.hubconn.send(MessageTypes.READYAPLAYER, context.state.thisPlayer)
       },
     mutation:
       function (state) {
@@ -64,8 +64,16 @@ export const Aplayers = {
     action: undefined,
     mutation:
       function (state, player) {
-        let pIndex = state.players.indexOf(x => x.name === player.name)
+        let pIndex = state.players.findIndex(x => x.name === player.name)
         state.players[pIndex] = player
+      }
+  },
+  ready: {
+    action: undefined,
+    mutation:
+      function (state, player) {
+        let pIndex = state.players.findIndex(x => x.name === player.name)
+        state.players[pIndex].ready = true
       }
   }
 }

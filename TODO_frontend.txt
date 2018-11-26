@@ -17,6 +17,11 @@ Add possibility of word dismissal as setting
 
 People cannot add words before settings are definite
 
+Allow for midgame join
+
+Check for duplicate words
+
+Check for duplicate players
 
 
 THINGS TO CHECK GETTING FROM BACKEND:

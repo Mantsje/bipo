@@ -9,6 +9,7 @@ import StatisticsPage from '@/views/StatisticsPage.vue'
 import TurnPage from '@/views/TurnPage.vue'
 import WaitingScreen from '@/views/WaitingScreen.vue'
 import SetupSettings from '@/views/SetupSettings.vue'
+import TeamLobby from '@/views/TeamLobby.vue'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/setupgame',
       name: 'SetupLobby',
       component: SetupLobby
+    },
+    {
+      path: '/teamlobby',
+      name: 'TeamLobby',
+      component: TeamLobby
     },
     {
       path: '/statistics',

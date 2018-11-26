@@ -8,6 +8,6 @@ export default class Team {
   }
 
   static fromJSON (data) {
-    return new Team(data.id, data.name, data.players.map(x => Player.fromJSON(x)))
+    return new Team(data.name, data.id, data.players.map(x => Player.fromJSON(x)))
   }
 }
