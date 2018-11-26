@@ -28,14 +28,18 @@ export default {
   },
   methods: {
     onJoin: function () {
-      this.$store.dispatch('joinGame', { playerName: this.playerName, roomcode: this.roomcode })
+      this.$store.dispatch('joinGame', { playerName: this.playerName.trim(), roomcode: this.roomcode.trim() })
     },
     onHost: function () {
-      this.$store.dispatch('hostGame', { playerName: this.playerName })
+      this.$store.dispatch('hostGame', { playerName: this.playerName.trim() })
     },
     toUpper: function () {
       this.roomcode = this.roomcode.toUpperCase()
     }
+  },
+  created: function () {
+    // Init circular dependency of store
+    this.$store.commit('initHubConnection', { store: this.$store, router: this.$router })
   }
 }
 </script>

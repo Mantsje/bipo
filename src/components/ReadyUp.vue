@@ -15,7 +15,7 @@ export default {
   }),
   methods: {
     onReady: function () {
-      this.$store.dispatch('readyPlayer')
+      this.$store.dispatch('readyAPlayer')
     }
   }
 }

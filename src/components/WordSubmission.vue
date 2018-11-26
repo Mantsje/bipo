@@ -71,7 +71,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import Word from '../datatypes/Word.js'
+import Word from '@/datatypes/Word.js'
 
 export default {
   name: 'WordSubmission',
@@ -81,16 +81,36 @@ export default {
       index: 0,
       wordField: '',
       hintField: '',
-      canSubmit: true
+      canSubmit: true,
+      errorMessage: ''
     }
   },
   computed: mapState({
     wordsPerPlayer: state => state.settings.wordsPerPlayer
   }),
   methods: {
+    isValidWord: function (word) {
+      return word.word.length > 0 && word.word.length <= this.$store.state.settings.maxWordLength && word.wordID !== ''
+    },
     onSubmit: function () {
+      this.errorMessage = ''
       this.canSubmit = false
-      this.$store.dispatch('controller/submitWords', this.words)
+      let correctWords = this.words.map(this.isValidWord)
+      let first = true
+      for (let idx in correctWords) {
+        if (!correctWords[idx]) {
+          if (first) {
+            this.errorMessage = 'The following words are not according to rules: '
+            first = false
+          }
+          this.errorMessage += String(parseInt(idx) + 1) + ' '
+          this.canSubmit = true
+        }
+      }
+      if (this.words.every(this.isValidWord)) {
+        this.$store.dispatch('controller/submitWords', this.words)
+        this.$router.push('/pregame')
+      }
     },
     onClickNumber: function (clickedNumber) {
       this.index = clickedNumber - 1

@@ -6,7 +6,7 @@ export default class MessageBuilder {
   }
 
   prepare (type, data) {
-    console.log('Prepare some message')
+    console.log('Prepare message of type: ' + type)
     let preparedData = null
 
     switch (type) {
@@ -14,6 +14,14 @@ export default class MessageBuilder {
       case MessageTypes.ADDPLAYER: { preparedData = data; break }
       case MessageTypes.UPDATESETTINGS: { preparedData = data; break }
       case MessageTypes.READYAPLAYER: { preparedData = data; break }
+      case MessageTypes.SUBMITWORDS: { preparedData = data; break }
+      case MessageTypes.TOPAGE: { preparedData = data; break }
+      case MessageTypes.SETTEAMS: { preparedData = data; break }
+      case MessageTypes.SETPLAYERS: { preparedData = data; break }
+      case MessageTypes.UPDATECONTROLLER: { preparedData = data; break }
+      case MessageTypes.STARTROUND: { preparedData = data; break }
+      case MessageTypes.ENDROUND: { preparedData = data; break }
+      case MessageTypes.NEXTTURN: { preparedData = data; break }
     }
 
     if (preparedData === null) {
@@ -28,11 +36,10 @@ export default class MessageBuilder {
   }
 
   initGame () {
-    console.log('assert that sending init game is going right!')
     return {
-      statistics: this.store.statistics.state,
-      controller: this.store.controller.state,
-      settings: this.store.settings.state,
+      statistics: this.store.state.statistics,
+      controller: this.store.state.controller,
+      settings: this.store.state.settings,
       roomCode: this.store.state.roomCode,
       archived: this.store.state.archived,
       host: this.store.state.host,
