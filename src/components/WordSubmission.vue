@@ -1,23 +1,73 @@
 <template>
-  <div class="WordSubmission">
+  <div class="wordsubmission">
     <form>
-      <font-awesome-icon v-on:click="onDecrIdx" icon="arrow-left"/>
-      <span v-on:click="onClickNumber(i)" :class="{active: i-1 == index}" v-for="i in Math.min(words.length + 1, wordsPerPlayer)" :key="i" class="wordNumber"> {{i}} </span>
-      <font-awesome-icon v-on:click="onIncrIdx" icon="arrow-right"/>
-      <br>
-      <input v-model="wordField" type="text" placeholder="Word"/>
-      <input v-model="hintField" type="text" placeholder="Hint">
-      <div v-if="canSubmit">
-        <button v-if="index === words.length && words.length !== wordsPerPlayer" v-on:click="onAddWord" type="button">Add Word</button>
+      <menu class="wordsubmission__menu">
+        <div class="icon"><font-awesome-icon v-on:click="onDecrIdx" icon="angle-left"/></div>
+          <div class="wordsubmission__menu__items">
+            <span v-on:click="onClickNumber(i)" :class="{active: i-1 == index}" v-for="i in Math.min(words.length + 1, wordsPerPlayer)" :key="i" class="item"> {{i}} </span>
+          </div>
+        <div class="icon"><font-awesome-icon v-on:click="onIncrIdx" icon="angle-right"/></div>
+      </menu>
+      <div class="wordsubmission__text">
+        <textarea v-model="wordField" type="text" placeholder="Word" rows=3></textarea>
+        <textarea v-model="hintField" type="text" placeholder="Hint" rows=3></textarea>
+        <button v-if="canSubmit && index === words.length && words.length !== wordsPerPlayer" v-on:click="onAddWord" type="button">Add Word</button>
         <button v-else v-on:click="onUpdateWord" type="button">Update Word</button>
-        <button v-if="words.length === wordsPerPlayer" v-on:click="onSubmit" type="button">Submit Words</button>
+        <button v-if="canSubmit && words.length === wordsPerPlayer" v-on:click="onSubmit" type="button">Submit Words</button>
       </div>
     </form>
   </div>
 </template>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.wordsubmission__menu {
+  display:flex;
+  padding:1rem 0;
+  align-items:center;
+  display:flex;
+  justify-content:center;
+}
+
+.wordsubmission__menu__items {
+  margin:0 .5rem;
+  display:flex;
+}
+
+.wordsubmission__menu__items .item {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  cursor:pointer;
+  margin:0 .2rem;
+  height:2rem;
+  padding:.2rem;
+}
+
+.wordsubmission__menu .icon {
+  cursor:pointer;
+  padding:.5rem;
+}
+
+.wordsubmission__menu__items .item.active {
+  background:red;
+  transition:.2s;
+  width:2rem;
+  height:2rem;
+}
+
+.wordsubmission__text {
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+}
+
+.wordsubmission__text > * {
+  margin-bottom:1rem;
+}
+
+</style>
 
 <script>
 import { mapState } from 'vuex'

@@ -1,11 +1,14 @@
 <template>
-  <div class="LandingForm">
+  <div class="landingform">
     <form>
-      <input v-model="playerName" type="text" placeholder="Your Name"/>
-      <input v-on:input="toUpper" v-model="roomcode" type="text" placeholder="Roomcode">
-      <button v-on:click="onJoin" type="button">Join</button>
-      Or
-      <button v-on:click="onHost" type="button">Host a game</button>
+      <div class="input-container">
+        <input v-model="playerName" type="text" placeholder="Your Name"/>
+        <input v-on:input="toUpper" v-model="roomcode" type="text" placeholder="Roomcode">
+      </div>
+
+      <button class="full-width" v-on:click="onJoin" type="button">Join</button>
+      <p class="center">Or</p>
+      <button class="full-width" v-on:click="onHost" type="button">Host a game</button>
     </form>
   </div>
 </template>

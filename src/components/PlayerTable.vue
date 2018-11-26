@@ -1,5 +1,5 @@
 <template>
-  <div class="PlayerTable">
+  <div class="players">
     <table>
       <tr><th>Players</th></tr>
       <tr v-for="player in players" :key="player.name"><td>{{ player.name }}</td></tr>

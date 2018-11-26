@@ -1,9 +1,9 @@
 <template>
   <div class="SettupLobby">
-    <page-default :showSettings="false" header="Setup your game here!"/>
-    <player-table/>
+    <page-default :showSettings="false" :showHelp="false" header="Setup your game here!"/>
+    <!-- <player-table/> -->
     <word-submission/>
-    <game-settings-view/>
+    <!-- <game-settings-view/> -->
   </div>
 </template>
 
