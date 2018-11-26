@@ -1,5 +1,5 @@
 <template>
-  <div class="TurnPage">
+  <div class="turnpage">
     <page-default header="It's your turn, good luck!"/>
     <my-turn/>
   </div>

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+// @import url('https://fonts.googleapis.com/css?family=Sedgwick+Ave');
 
 $background-color:#252134;
 $primary:#FFA967;
@@ -102,4 +103,39 @@ input, textarea {
   font-size:1rem;
   border-radius:1rem;
   resize:none
+}
+
+
+
+
+// word 
+
+.word {
+  background-image: url(assets/img/paper.png);
+  background-size: 100% 100%;
+  color: #001e8ac4;
+  width: 100%;
+  height: 0;
+  padding-bottom: 70%;
+  position: relative;
+  font-family: Architects Daughter, sans-serif;
+  user-select: none;  
+}
+
+
+.word h1 {
+  text-align:center;
+  font-size:3rem;
+  margin:0;
+}
+
+.inner_word {  
+  padding:1rem;
+  display:flex;
+  align-items:center;
+  flex-direction:column;
+  justify-content:center;
+  position:absolute;
+  width:100%;
+  height:100%;
 }
