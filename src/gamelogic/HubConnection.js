@@ -72,7 +72,7 @@ export default class HubConnection {
   // Needs level of indirection because 'this' becomes undefined, so needs hubconn
   onMessage (hubconn) {
     return function (event) {
-      // console.log('Message received from connection:', event.data)
+      console.log('Message received from connection:', event.data)
       hubconn.messageHandler.handleMessage(JSON.parse(event.data))
     }
   }

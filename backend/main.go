@@ -10,7 +10,7 @@ import (
 	"net/http"
 )
 
-var addr = flag.String("addr", ":8081", "http service address")
+var addr = flag.String("addr", ":8082", "http service address")
 var hub *Hub
 
 func serveIndex(w http.ResponseWriter, r *http.Request) {
@@ -27,8 +27,8 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func hostGame(w http.ResponseWriter, r *http.Request) {
+	log.Println("here maybe?")
 	playerNames, ok := r.URL.Query()["playerName"]
-
     if !ok || len(playerNames) > 1 {
         log.Println("Url Param 'playerName' is missing or contains more than 1 parameter")
         return
@@ -65,9 +65,9 @@ func main() {
 	hub = newHub()
 	go hub.run()
 
-	http.HandleFunc("/", serveIndex)
-	http.HandleFunc("/host", hostGame)
-	http.HandleFunc("/join", joinGame)
+	//http.HandleFunc("/", serveIndex)
+	http.HandleFunc("/ws/host", hostGame)
+	http.HandleFunc("/ws/join", joinGame)
 	log.Println("Running back-end server...")
 
 	err := http.ListenAndServe(*addr, nil)

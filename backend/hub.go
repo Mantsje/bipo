@@ -36,52 +36,49 @@ func newHub() *Hub {
 func (h *Hub) run() {
 	for {
 		select {
-		case client := <- h.createRoom:
-			/** This creates a new room, when a new game will be hosted.
-			*	If a certain room code already exists, it generates a different one.
-			*/
-			currentRoom := newRoom(client, h)
+			case client := <- h.createRoom:
+				/** This creates a new room, when a new game will be hosted.
+				*	If a certain room code already exists, it generates a different one.
+				*/
+				currentRoom := newRoom(client, h)
 
-			// Add room to registered rooms in hub
-			h.registeredRooms[currentRoom.code] = currentRoom
+				// Add room to registered rooms in hub
+				h.registeredRooms[currentRoom.code] = currentRoom
 
-			// Add current room to client
-			client.joinedRoom = currentRoom
+				// Add current room to client
+				client.joinedRoom = currentRoom
 
-			// Add current client to room
-			currentRoomClients := h.registeredRooms[currentRoom.code].connectedClients
-			h.registeredRooms[currentRoom.code].connectedClients = append(currentRoomClients, client)			
+				// Add current client to room
+				currentRoomClients := h.registeredRooms[currentRoom.code].connectedClients
+				h.registeredRooms[currentRoom.code].connectedClients = append(currentRoomClients, client)			
 
-		case joiningClientData := <- h.joinRoom:
-			/** This joins a client to a certain room. 
-			* 	joiningClientData contains a room code and the client that wants to join.
-			*/
+			case joiningClientData := <- h.joinRoom:
+				/** This joins a client to a certain room. 
+				* 	joiningClientData contains a room code and the client that wants to join.
+				*/
 
-			// if the room does not exist, close the websocket connection of the client that tries to join
-			if _, ok := h.registeredRooms[joiningClientData.roomCode]; !ok {
-				joiningClientData.client.conn.Close()
-			}
-			
-			// Join room to client
-			joiningClientData.client.joinedRoom = h.registeredRooms[joiningClientData.roomCode]
-			// Join client to room
-			currentRoomClients := h.registeredRooms[joiningClientData.roomCode].connectedClients
-			h.registeredRooms[joiningClientData.roomCode].connectedClients = append(currentRoomClients, joiningClientData.client)
-
-		case sendingData := <- h.broadcast:
-			/** Broadcast a message to all clients in a specific room.
-			*	Only rooms registered in the hub can be accessed.
-			*/
-			connectedClients := h.registeredRooms[sendingData.roomCode].connectedClients
-			if connectedClients == nil {
-				log.Println("No clients exist in the room, or the room does not exist")
-			}
-			for _, client := range connectedClients { 
-				select {
-					// Send message to channel for readPump
-					case client.send <- sendingData.message:
+				// if the room does not exist, close the websocket connection of the client that tries to join
+				if _, ok := h.registeredRooms[joiningClientData.roomCode]; !ok {
+					joiningClientData.client.conn.Close()
 				}
-			}
+				
+				// Join room to client
+				joiningClientData.client.joinedRoom = h.registeredRooms[joiningClientData.roomCode]
+				// Join client to room
+				currentRoomClients := h.registeredRooms[joiningClientData.roomCode].connectedClients
+				h.registeredRooms[joiningClientData.roomCode].connectedClients = append(currentRoomClients, joiningClientData.client)
+
+			case sendingData := <- h.broadcast:
+				/** Broadcast a message to all clients in a specific room.
+				*	Only rooms registered in the hub can be accessed.
+				*/
+				connectedClients := h.registeredRooms[sendingData.roomCode].connectedClients
+				if connectedClients == nil {
+					log.Println("No clients exist in the room, or the room does not exist")
+				}
+				for _, client := range connectedClients { 
+					client.send <- sendingData.message
+				}
 		}
 	}
 }

@@ -62,8 +62,8 @@ export default new Vuex.Store({
 
       context.commit('createThisPlayer', playerName)
 
-      // let hubURL = 'ws://localhost:8082/ws/join?playerName=' + playerName + '&roomCode=' + roomCode
-      let hubURL = 'ws://localhost:8082/ws'
+      let hubURL = 'ws://localhost:8082/ws/join?playerName=' + playerName + '&roomCode=' + roomCode
+      // let hubURL = 'ws://localhost:8082/ws'
       context.commit('openHubConnection', hubURL)
     },
     // Create a new player, instantiate a game, and only when that is finished make the connection with the hub
@@ -72,9 +72,9 @@ export default new Vuex.Store({
       context.commit('createThisPlayer', playerName)
       instantiateGame(playerName)
         .then(() => {
-          // let hubURL = 'ws://localhost:8082/ws/host?playerName=' + playerName
+          let hubURL = 'ws://localhost:8082/ws/host?playerName=' + playerName
           // context.commit('openHubConnection', hubURL)
-          let hubURL = 'ws://localhost:8082/ws'
+          // let hubURL = 'ws://localhost:8082/ws'
           let roomCode = 'AAAA'
           context.dispatch('setRoomCodeDirectly', roomCode)
             .then(() => {

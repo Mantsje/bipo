@@ -1,15 +1,15 @@
 package main
 
 type ServerRoomCode struct {
-	mType string `json:"type,omitempty"`
+	MType string `json:"type,omitempty"`
 
-	data string `json:"data,omitempty"`
+	Data string `json:"data,omitempty"`
 } 
 
-func newServerRoomCode(roomCode string) *ServerRoomCode {
-	return &ServerRoomCode{
-		mType: "SERVERROOMCODE",
-		data: roomCode,
+func newServerRoomCode(roomCode string) ServerRoomCode {
+	return ServerRoomCode{
+		MType: "SERVERROOMCODE",
+		Data: roomCode,
 	}
 }
 

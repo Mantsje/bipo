@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"time"
 	"github.com/gorilla/websocket"
+	"encoding/json"
 )
 
 const (
@@ -95,7 +96,6 @@ func (c *Client) wsToHub() {
 	if c.isHost {
 		c.sendRoomCode <- c.joinedRoom.code
 	}
-
 	for {
 		_, jsonMessage, err := c.conn.ReadMessage()
 		if err != nil {
@@ -128,6 +128,7 @@ func (c *Client) hubToWs() {
 		select {
 		case message, ok := <-c.send:
 			if ok {
+				
 				// Write the message to each client
 				c.conn.SetWriteDeadline(time.Now().Add(writeWait))
 				if !ok {
@@ -135,15 +136,17 @@ func (c *Client) hubToWs() {
 					c.conn.WriteMessage(websocket.CloseMessage, []byte{})
 					return
 				}
-				w, err := c.conn.NextWriter(websocket.TextMessage)
+				//w, err := c.conn.NextWriter(websocket.TextMessage)
+				err := c.conn.WriteMessage(websocket.TextMessage, message)
 				if err != nil {
+					log.Println(err)
 					return
 				}
-				w.Write(message)
+				//log.Println(message)
+				
 			}
 		case roomCode := <-c.sendRoomCode:
 			// Write the message to each client
-			//TODO: test this
 			c.conn.WriteJSON(newServerRoomCode(roomCode))
 		}
 	}
@@ -172,12 +175,14 @@ func serveWsToClient(code string, playerName string, hub *Hub, w http.ResponseWr
 }
 
 func serveWsToHost(playerName string, hub *Hub, w http.ResponseWriter, r *http.Request) {
+	/*** NEEDS TO BE FIXED, NOT A GOOD SOLUTION */
+	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
+	/*** TODO*/
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
 		return
 	}
-
 	client := newClient(playerName, hub, conn)
 
 	/**** Create a room and start hosting */
