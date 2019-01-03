@@ -6,7 +6,7 @@
     </div>
     <!-- during game -->
     <div class="my-turn_during-game" v-else-if="!turnEnd">
-      <div class="word" v-on:mousedown="dragStart" v-on:mouseup="dragStop" v-on:mousemove="drag" ref="word">
+      <div class="word" v-on:mousedown="dragStart" v-on:mousemove="drag" v-on:mouseup="dragStop" ref="word">
         <div class="inner_word">
           <h1>{{ currentWord.word }}</h1>
           <h2>{{ currentWord.hint == '' ? '' : '(' + currentWord.hint + ')' }}</h2>
@@ -14,6 +14,8 @@
       </div>
       <button v-on:click="onGotIt">Got it!</button>
       <span class="my-turn_timer">{{ turntime }}</span>
+
+      <div class="my-turn_fullpage" v-on:mouseup="dragStop" v-on:mousemove="drag"></div>
     </div>
     <!-- end round -->
     <div class="my-turn_end" v-else-if="!roundEnd">
@@ -23,6 +25,7 @@
     <div class="my-turn_last" v-else>
       <span>You finished the last word! Good job!</span>
     </div>
+    
   </div>
   <!-- <div class="my-turn">
     <button v-if="!start" v-on:click="onStartTurn" type="button">Start my turn</button>
@@ -51,7 +54,7 @@ export default {
   name: 'MyTurn',
   data: function () {
     return {
-      minimumDrag: -100,
+      minimumDrag: -50,
       dragging: false,
       dragStartPos: 0,
       dragY: 0,
@@ -84,28 +87,27 @@ export default {
       }, 1000)
     },
     dragStart: function (e) {
-      this.dragStartPos = e.pageY
+
+      this.dragStartPos = {y: e.pageY, x: e.pageX}
       this.dragging = true
-      console.log('start dragging')
+      console.log('start dragging ')
     },
     drag: function (e) {
       if (this.dragging) {
-        this.dragY = e.pageY - this.dragStartPos
-        this.$refs.word.style.transform = 'translateY(' + this.dragY + 'px)'
-        if (this.dragY < this.minimumDrag) {
-          console.log('joost zijn domme lege if')
-        }
+        this.dragY = e.pageY - this.dragStartPos.y
+        this.dragX = e.pageX - this.dragStartPos.x
+        this.$refs.word.style.transform = 'translateY(' + this.dragY / 2 + 'px) translateX(' + this.dragX / 2 + 'px)'
       }
     },
     dragStop: function (e) {
       this.dragging = false
       console.log('stop dragging')
       console.log(this.dragY)
-      if (this.dragY < -100) {
+      if (this.dragY < this.minimumDrag) {
         this.onGotIt()
       }
-      this.$refs.word.style.transform = 'translateY(0px)'
-    },
+      this.$refs.word.style.transform = 'translateY(0px) translateX(0px)'
+   },
     onGotIt: function () {
       this.guessed.push(this.currentWord)
       this.currentWordStat.endTime = this.turntime
