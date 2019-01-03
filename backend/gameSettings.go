@@ -1,59 +1,75 @@
 package main
 
-type GameState struct {
-	controller *GameController
+/*type GameState struct {
+	Controller *GameController
 
-	settings *GameSettings
+	Settings *GameSettings
 
-	roomCode string
+	RoomCode string
 
-	host string
+	Host string
 
-	connectedPlayers []*Player
+	ConnectedPlayers []*Player
+}
+
+func newGameState() gameState {
+	return gameState {
+		controller: newGameController(),
+		Settings: newGameSettings(),
+		roomCode: nil,
+		host: nil,
+		connectedPlayers: []newPlayer(),
+	}
 }
 
 type GameController struct {
 	// What turn are we at right now?
-	turnNumber int
+	TurnNumber int
 
 	// Who's turn is it? (player name)
-	turn string
+	Turn string
 
 	// Displays the status of the round
-	status int
+	Status int
 
 	// Arrays of teams
-	teams []*Team
+	Teams []*Team
 
 	// All words in the match
-	words []*Word
+	Words []*Word
 
 	// The words that are still left to be guessed during this round
-	wordsLeft []*Word
+	WordsLeft []*Word
 }
 
 type GameSettings struct {
-	wordsPerPlayer	int
-	numTeams		int
-	turnTime		int
-	numRounds		int
-	maxWordLength	int
+	WordsPerPlayer	int
+	NumTeams		int
+	TurnTime		int
+	NumRounds		int
+	MaxWordLength	int
 
-	customTeams		bool
-	singleDevice	bool // Will the game be played on only one device?
+	CustomTeams		bool
+	SingleDevice	bool // Will the game be played on only one device?
 	DBFill			bool // Are players allowed to add words from the database?
 }
 
 type Player struct {
-	name 		string
-	teamID 		int
-	ready 		int 
+	Name 		string
+	TeamID 		int
+	Ready 		int 
+}
+
+func newPlayer() *Player {
+	Name: nil,
+	TeamID: nil,
+	Ready: nil,
 }
 
 type Team struct {
-	id 			int
-	name 		string
-	players 	[]*Player
+	Id 			int
+	Name 		string
+	Players 	[]*Player
 }
 
 type Word struct {
@@ -64,4 +80,4 @@ type Word struct {
 
 func (c *Client) runGame() {
 	
-}
+}*/

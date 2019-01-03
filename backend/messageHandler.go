@@ -58,6 +58,8 @@ func handleMessage(jsonMessage []byte, c *Client) []byte {
 	log.Println("Receiving message of type: " + msg.MessageType)
 	switch msg.MessageType {
 		case INITGAME:
+			state := newGameState() 
+			json.Unmarshal(msg.Data)
 		case ADDPLAYER:
 		case SETPLAYERS:
 		case UPDATESETTINGS:

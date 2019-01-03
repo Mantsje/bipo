@@ -106,7 +106,7 @@ func (c *Client) wsToHub() {
 		}
 		message := handleMessage(jsonMessage, c)
 		if message == nil {
-			break
+			log.Println("No message parsed from handleMessage")
 		}
 		// Send the message, and the room to which the message should be sent
 		c.hub.broadcast <- newSendingData(c.joinedRoom.code, message)
@@ -142,7 +142,6 @@ func (c *Client) hubToWs() {
 					log.Println(err)
 					return
 				}
-				//log.Println(message)
 				
 			}
 		case roomCode := <-c.sendRoomCode:
