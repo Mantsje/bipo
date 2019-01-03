@@ -1,32 +1,21 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
+  <div class="Statistics">
+    <h2>And the winner of round {{ round }} is {{ stats.rounds[round].winningTeam.name }} </h2>
   </div>
 </template>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+<style scoped></style>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+  name: 'Statistics',
+  // Could be made props
+  computed: mapState({
+    stats: state => state.statistics,
+    round: state => state.controller.currentRound
+  })
 }
 </script>

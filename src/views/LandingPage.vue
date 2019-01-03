@@ -1,6 +1,7 @@
 <template>
-  <div class="LandingPage">
-    <page-default :showSettings="false" :showHelp="false" header="Welcome to Brief-in-de-pan Online!"/>
+  <div class="landingpage">
+    <page-default :showSettings="false" :showHelp="false"/>
+    <h1 class="main-title">Join a room</h1>
     <landing-form/>
   </div>
 </template>
@@ -16,4 +17,5 @@ export default {
     LandingForm
   }
 }
+
 </script>
