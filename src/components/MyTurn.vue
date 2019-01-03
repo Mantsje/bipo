@@ -43,6 +43,8 @@
 
 <script>
 import Word from '../datatypes/Word.js'
+import WordStat from '../datatypes/Statistics/WordStat.js'
+import TurnStat from '../datatypes/Statistics/TurnStat.js'
 import { shuffleArray } from '@/datatypes/helperScripts/arrayManipulation'
 
 export default {
@@ -52,12 +54,14 @@ export default {
       minimumDrag: -100,
       dragging: false,
       dragStartPos: 0,
-      dragY:0,
+      dragY: 0,
       start: false,
       turnEnd: false,
       roundEnd: false,
       turntime: this.$store.state.settings.turnTime,
       currentWord: new Word('WORD', 'HINT'),
+      currentTurnStat: undefined,
+      currentWordStat: undefined,
       guessed: [],
       intervalID: undefined,
       words: shuffleArray(JSON.parse(JSON.stringify(this.$store.state.controller.wordsLeft)).map(x => Word.fromJSON(x)))
@@ -65,12 +69,14 @@ export default {
   },
   methods: {
     onStartTurn: function () {
+      this.currentTurnStat = new TurnStat(this.$store.state.controller.turnNr, this.$store.state.thisPlayer.name)
       this.getNextWord()
       this.start = true
       this.intervalID = setInterval(() => {
         if (this.turntime <= 0) {
           this.turnEnd = true
           clearInterval(this.intervalID)
+          this.$store.dispatch('statistics/pushNewTurn', this.currentTurnStat)
           this.$store.dispatch('controller/nextTurn', this.guessed)
           return
         }
@@ -78,41 +84,45 @@ export default {
       }, 1000)
     },
     dragStart: function (e) {
-      this.dragStartPos = e.pageY;
-      this.dragging = true;
-      console.log('start dragging');
+      this.dragStartPos = e.pageY
+      this.dragging = true
+      console.log('start dragging')
     },
-    drag: function (e) {   
+    drag: function (e) {
       if (this.dragging) {
-        this.dragY = e.pageY - this.dragStartPos;
-        this.$refs.word.style.transform = 'translateY(' + this.dragY + 'px)';
+        this.dragY = e.pageY - this.dragStartPos
+        this.$refs.word.style.transform = 'translateY(' + this.dragY + 'px)'
         if (this.dragY < this.minimumDrag) {
-          
+          console.log('joost zijn domme lege if')
         }
-      }   
+      }
     },
     dragStop: function (e) {
-      this.dragging = false;
-      console.log('stop dragging');
-      console.log(this.dragY);
-      if (this.dragY < -100) {        
-        this.onGotIt();
-      }      
-      this.$refs.word.style.transform = 'translateY(0px)';
-
-    }, 
+      this.dragging = false
+      console.log('stop dragging')
+      console.log(this.dragY)
+      if (this.dragY < -100) {
+        this.onGotIt()
+      }
+      this.$refs.word.style.transform = 'translateY(0px)'
+    },
     onGotIt: function () {
       this.guessed.push(this.currentWord)
+      this.currentWordStat.endTime = this.turntime
+      this.currentTurnStat.words.push(this.currentWordStat)
       this.getNextWord()
     },
     getNextWord: function () {
       if (this.words.length > this.guessed.length) {
         this.currentWord = this.words[this.guessed.length]
+        this.currentWordStat = new WordStat(this.currentWord, this.turntime, -1)
       } else {
         this.turnEnd = true
         this.roundEnd = true
         clearInterval(this.intervalID)
-        this.$store.dispatch('controller/endRound', this.guessed)
+        this.$store.dispatch('statistics/pushNewTurn', this.currentTurnStat).then(() => {
+          this.$store.dispatch('controller/endRound', this.guessed)
+        })
       }
     }
   }

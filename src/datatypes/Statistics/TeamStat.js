@@ -11,7 +11,7 @@ import PlayerStat from './PlayerStat'
 
 export default class TeamStat {
   constructor (team) {
-    this.teamID = team.teamID
+    this.teamID = team.id
     for (let p in team.players) {
       this[team.players[p].name] = new PlayerStat(team.players[p])
     }

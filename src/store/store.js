@@ -52,7 +52,8 @@ export default new Vuex.Store({
 
     addAPlayer: Aplayers.add.mutation,
     setAPlayer: Aplayers.set.mutation,
-    readyAPlayer: Aplayers.ready.mutation
+    readyAPlayer: Aplayers.ready.mutation,
+    deReadyAll: Aplayers.deReadyAll.mutation
   },
 
   actions: {
@@ -88,7 +89,7 @@ export default new Vuex.Store({
     },
 
     instantiateGame: AcreateGame.action,
-    readyAPlayer: AthisPlayer.ready.action
-
+    readyAPlayer: AthisPlayer.ready.action,
+    deReadyAll: Aplayers.deReadyAll.action
   }
 })

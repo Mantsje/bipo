@@ -1,4 +1,4 @@
-import { AinitRound } from './actions'
+import { AinitRound, ApushNewTurn, AcomputeEndRound } from './actions'
 
 export default {
   namespaced: true,
@@ -11,13 +11,16 @@ export default {
         state[key] = data[key]
       }
     },
-    initNextRound: AinitRound.mutation
+    initNextRound: AinitRound.mutation,
+    pushNewTurn: ApushNewTurn.mutation,
+    computeEndRound: AcomputeEndRound.mutation
   },
   actions: {
     instantiateStats: function (context) {
       let data = { rounds: [] }
       context.commit('mirrorStats', data)
     },
-    initNextRound: AinitRound.action
+    initNextRound: AinitRound.action,
+    pushNewTurn: ApushNewTurn.action
   }
 }

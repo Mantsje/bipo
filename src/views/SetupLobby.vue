@@ -9,17 +9,17 @@
 
 <script>
 import PageDefault from '../components/PageDefault'
-import PlayerTable from '../components/PlayerTable'
+// import PlayerTable from '../components/PlayerTable'
 import WordSubmission from '../components/WordSubmission'
-import GameSettingsView from '../components/GameSettingsView'
+// import GameSettingsView from '../components/GameSettingsView'
 
 export default {
   name: 'SetupLobby',
   components: {
     PageDefault,
-    PlayerTable,
-    WordSubmission,
-    GameSettingsView
+    // PlayerTable,
+    WordSubmission
+    // GameSettingsView
   }
 }
 </script>

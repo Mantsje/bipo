@@ -2,7 +2,9 @@ import Player from '@/datatypes/Player'
 import Team from '@/datatypes/Team'
 import Word from '@/datatypes/Word'
 import RoundStat from '@/datatypes/Statistics/RoundStat'
+import TurnStat from '@/datatypes/Statistics/TurnStat'
 import { MessageTypes } from './MessageTypes'
+import { RoundStatus } from '@/datatypes/enums'
 
 /* A default message looks like:
   Message = {
@@ -43,6 +45,8 @@ export default class MessageHandler {
       case MessageTypes.NEXTTURN: { this.nextTurn(message.data); break }
       case MessageTypes.SERVERROOMCODE: { this.receiveServerRoomCode(message.data); break }
       case MessageTypes.NEWROUNDSTAT: { this.newRoundStat(message.data); break }
+      case MessageTypes.PUSHNEWTURNSTAT: { this.pushNewTurnStat(message.data); break }
+      case MessageTypes.DEREADYALL: { this.deReadyAll(message.data); break }
     }
   }
 
@@ -97,11 +101,20 @@ export default class MessageHandler {
     let host = this.store.state.host
     let me = this.store.state.thisPlayer
     if (this.store.state.players.every((x) => x.ready)) {
-      this.router.push('/teamlobby')
-      if (me.name === host) {
-        this.store.dispatch('controller/computeTeams').then(() => {
-          this.store.dispatch('controller/initNextRound')
-        })
+      if (this.store.state.controller.roundStatus === RoundStatus.PRE) {
+        this.router.push('/teamlobby')
+        if (me.name === host) {
+          this.store.dispatch('controller/computeTeams').then(() => {
+            this.store.dispatch('controller/initNextRound')
+          })
+        }
+      } else {
+        if (me.name === host) {
+          this.store.dispatch('controller/initNextRound').then(() => {
+            this.store.dispatch('controller/startRound')
+            this.store.dispatch('deReadyAll')
+          })
+        }
       }
     }
   }
@@ -140,6 +153,7 @@ export default class MessageHandler {
     let words = data.map(x => Word.fromJSON(x))
     this.store.commit('controller/processWordsGuessed', words)
     this.store.commit('controller/endRound')
+    this.store.commit('statistics/computeEndRound', this.store.state.controller.teams)
     this.router.push('/statistics')
   }
 
@@ -163,5 +177,17 @@ export default class MessageHandler {
     console.log('server room code message received')
     let roundStat = RoundStat.fromJSON(data)
     this.store.commit('statistics/initNextRound', roundStat)
+  }
+
+  pushNewTurnStat (data) {
+    console.log('push new turn stat message received')
+    let turnStat = TurnStat.fromJSON(data)
+    this.store.commit('statistics/pushNewTurn', turnStat)
+  }
+
+  deReadyAll (data) {
+    // Data is empty here, don't use, just message
+    console.log('de-ready all players message received')
+    this.store.commit('deReadyAll')
   }
 }

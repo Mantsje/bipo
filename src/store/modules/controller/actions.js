@@ -109,10 +109,11 @@ export const Aingame = {
       mutation:
         function (state) {
           console.warn('Is everybody updating turn themselves okay, or 1 person send new settings?')
-          state.turnNr += 1
-          let team = state.teams[state.turnNr % state.teams.length]
-          let pIndex = Math.floor(state.turnNr / team.players.length) % team.players.length
+          let turnNr = state.turnNr + 1
+          let team = state.teams[turnNr % state.teams.length]
+          let pIndex = Math.floor(turnNr / team.players.length) % team.players.length
           state.turn = team.players[pIndex].name
+          state.turnNr = turnNr
         },
       action:
         function (context, wordsGuessed) {

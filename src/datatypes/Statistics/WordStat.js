@@ -18,7 +18,7 @@ export default class WordStat {
     let out = new WordStat(undefined, -1, -1)
     out.startTime = data.startTime
     out.endTime = data.endTime
-    out.words = Word.fromJSON(data.word)
+    out.word = Word.fromJSON(data.word)
     return out
   }
 }

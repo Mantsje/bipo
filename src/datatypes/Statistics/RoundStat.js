@@ -18,6 +18,7 @@ export default class RoundStat {
     this.bestPlayer = 'EMPTYBEST'
     this.worstPlayer = 'EMPTYWORST'
     this.winningTeam = 'EMPTYWINTEAM'
+    this.winningScore = -1
   }
 
   static fromJSON (data) {
@@ -25,6 +26,7 @@ export default class RoundStat {
     out.bestPlayer = data.bestPlayer
     out.worstPlayer = data.worstPlayer
     out.winningTeam = data.winningTeam
+    out.winningScore = data.winningScore
     out.teamstats = data.teamstats.map((x) => TeamStat.fromJSON(x))
     return out
   }

@@ -10,7 +10,7 @@ import WordStat from './WordStat'
 export default class TurnStat {
   constructor (turnNr, playerName) {
     this.playerName = playerName
-    this.turn = 'turn' + turnNr
+    this.turn = turnNr
     this.words = []
   }
 

@@ -75,6 +75,16 @@ export const Aplayers = {
         let pIndex = state.players.findIndex(x => x.name === player.name)
         state.players[pIndex].ready = true
       }
+  },
+  deReadyAll: {
+    action: function (context) {
+      context.state.hubconn.send(MessageTypes.DEREADYALL, undefined)
+    },
+    mutation: function (state) {
+      for (let idx in state.players) {
+        state.players[idx].ready = false
+      }
+    }
   }
 }
 

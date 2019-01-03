@@ -1,6 +1,6 @@
 <template>
   <div class="Statistics">
-    <h2>And the winner of round {{ round }} is {{ stats.rounds[round].winningTeam }} </h2>
+    <h2>And the winner of round {{ round }} is {{ stats.rounds[round].winningTeam.name }} </h2>
   </div>
 </template>
 
